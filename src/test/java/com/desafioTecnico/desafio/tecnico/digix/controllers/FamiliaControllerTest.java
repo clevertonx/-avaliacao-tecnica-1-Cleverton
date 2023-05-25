@@ -7,9 +7,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,23 +36,6 @@ public class FamiliaControllerTest {
     @AfterEach
     public void deletaDados() {
         familiaRepository.deleteAll();
-    }
-
-    public List<FamiliaDTO> listarFamiliasOrdenadasPorPontuacao() {
-        List<Familia> familias = familiaRepository.findAll();
-
-        familias.forEach(Familia::calcularPontuacao); // Calcula a pontuação para cada família
-
-        List<FamiliaDTO> familiaDTOs = familias.stream()
-                .map(familia -> new FamiliaDTO(
-                        familia.getRendaTotal(),
-                        familia.getQuantidadeDependentes(),
-                        familia.getPontuacao())) // Obtém a pontuação calculada
-                .collect(Collectors.toList());
-
-        familiaDTOs.sort((familia1, familia2) -> Integer.compare(familia2.getPontuacao(), familia1.getPontuacao()));
-
-        return familiaDTOs;
     }
 
     @Test

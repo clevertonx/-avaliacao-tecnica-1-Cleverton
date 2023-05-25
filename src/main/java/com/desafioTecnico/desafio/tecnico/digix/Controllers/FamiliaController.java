@@ -21,7 +21,6 @@ public class FamiliaController {
     @Autowired
     FamiliaService familiaService;
 
-    @Autowired
     public FamiliaController(FamiliaService familiaService) {
         this.familiaService = familiaService;
     }

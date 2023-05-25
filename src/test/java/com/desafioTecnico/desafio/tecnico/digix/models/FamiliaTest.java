@@ -3,8 +3,6 @@ package com.desafioTecnico.desafio.tecnico.digix.models;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.desafioTecnico.desafio.tecnico.digix.models.Familia;
-
 public class FamiliaTest {
     
     @Test
