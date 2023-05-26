@@ -17,7 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.desafioTecnico.desafio.tecnico.digix.Repository.FamiliaRepository;
-import com.desafioTecnico.desafio.tecnico.digix.dto.FamiliaDTO;
+import com.desafioTecnico.desafio.tecnico.digix.dto.FamiliaRequestDTO;
 import com.desafioTecnico.desafio.tecnico.digix.models.Familia;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,7 +41,7 @@ public class FamiliaControllerTest {
     @Test
     public void criarFamilia_deveRetornarNovaFamiliaDTO() throws Exception {
         // Arrange
-        FamiliaDTO familiaDTO = new FamiliaDTO(1000.0, 2, 0);
+        FamiliaRequestDTO familiaDTO = new FamiliaRequestDTO(1000.0, 2);
 
         // Act & Assert
         mockMvc.perform(post("/familias")
@@ -60,7 +60,7 @@ public class FamiliaControllerTest {
         familiaRepository.save(familia);
 
         long familiaId = familia.getId();
-        FamiliaDTO familiaDTO = new FamiliaDTO(1500.0, 3, 0);
+        FamiliaRequestDTO familiaDTO = new FamiliaRequestDTO(1500.0, 3);
 
         // Act & Assert
         mockMvc.perform(put("/familias/{id}", familiaId)

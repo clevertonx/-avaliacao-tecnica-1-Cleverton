@@ -5,16 +5,14 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class FamiliaDTO {
+public class FamiliaRequestDTO {
     private Double rendaTotal;
     private int quantidadeDependentes;
-    private int pontuacao;
 
 
-    public FamiliaDTO(Double rendaTotal, int quantidadeDependentes, int pontuacao) {
+    public FamiliaRequestDTO(Double rendaTotal, int quantidadeDependentes) {
         this.rendaTotal = rendaTotal;
         this.quantidadeDependentes = quantidadeDependentes;
-        this.pontuacao = pontuacao;
     }
 
 }

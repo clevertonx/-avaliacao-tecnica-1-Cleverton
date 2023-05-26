@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.desafioTecnico.desafio.tecnico.digix.Repository.FamiliaRepository;
 import com.desafioTecnico.desafio.tecnico.digix.Services.FamiliaService;
-import com.desafioTecnico.desafio.tecnico.digix.dto.FamiliaDTO;
+import com.desafioTecnico.desafio.tecnico.digix.dto.FamiliaRequestDTO;
+import com.desafioTecnico.desafio.tecnico.digix.dto.FamiliaResponseDTO;
 
 import java.util.List;
 
@@ -26,21 +27,21 @@ public class FamiliaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FamiliaDTO>> listarFamiliasOrdenadasPorPontuacao() {
-        List<FamiliaDTO> familiaDTOs = familiaService.listarFamiliasOrdenadasPorPontuacao();
+    public ResponseEntity<List<FamiliaResponseDTO>> pontuarFamilias() {
+        List<FamiliaResponseDTO> familiaDTOs = familiaService.pontuarFamilias();
         return ResponseEntity.ok(familiaDTOs);
     }
 
     @PostMapping
-    public ResponseEntity<FamiliaDTO> criarFamilia(@RequestBody FamiliaDTO familiaDTO) {
-        FamiliaDTO novaFamiliaDTO = familiaService.criarFamilia(familiaDTO);
+    public ResponseEntity<FamiliaResponseDTO> criarFamilia(@RequestBody FamiliaRequestDTO familiaDTO) {
+        FamiliaResponseDTO novaFamiliaDTO = familiaService.criarFamilia(familiaDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(novaFamiliaDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FamiliaDTO> atualizarFamilia(@PathVariable("id") long id,
-            @RequestBody FamiliaDTO familiaDTO) {
-        FamiliaDTO familiaAtualizadaDTO = familiaService.atualizarFamilia(id, familiaDTO);
+    public ResponseEntity<FamiliaResponseDTO> atualizarFamilia(@PathVariable("id") long id,
+            @RequestBody FamiliaRequestDTO familiaDTO) {
+        FamiliaResponseDTO familiaAtualizadaDTO = familiaService.atualizarFamilia(id, familiaDTO);
         if (familiaAtualizadaDTO != null) {
             return ResponseEntity.ok(familiaAtualizadaDTO);
         } else {

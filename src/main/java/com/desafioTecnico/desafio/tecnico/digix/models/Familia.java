@@ -18,32 +18,49 @@ public class Familia {
     private long id;
     private Double rendaTotal;
     private int quantidadeDependentes;
+    private int pontuacao;
 
     public Familia(Double rendaTotal, int quantidadeDependentes) {
         this.rendaTotal = rendaTotal;
         this.quantidadeDependentes = quantidadeDependentes;
     }
 
-    public int calcularPontuacao() {
-        int pontuacao = 0;
-    
-        if (rendaTotal <= 900) {
-            pontuacao += 5;
-        } else if (rendaTotal <= 1500) {
-            pontuacao += 3;
-        }
-    
-        if (quantidadeDependentes >= 3) {
-            pontuacao += 3;
-        } else if (quantidadeDependentes >= 1) {
-            pontuacao += 2;
-        }
-    
-        return pontuacao;
+    public double getRendaTotal() {
+        return rendaTotal;
+    }
+
+    public int getQuantidadeDependentes() {
+        return quantidadeDependentes;
     }
 
     public int getPontuacao() {
-        return calcularPontuacao();
+        return pontuacao;
     }
+
+    public void setPontuacao(int pontuacao) {
+        this.pontuacao = pontuacao;
+    }
+
+    // public int calcularPontuacao() {
+    // int pontuacao = 0;
+
+    // if (rendaTotal <= 900) {
+    // pontuacao += 5;
+    // } else if (rendaTotal <= 1500) {
+    // pontuacao += 3;
+    // }
+
+    // if (quantidadeDependentes >= 3) {
+    // pontuacao += 3;
+    // } else if (quantidadeDependentes >= 1) {
+    // pontuacao += 2;
+    // }
+
+    // return pontuacao;
+    // }
+
+    // public int getPontuacao() {
+    // return calcularPontuacao();
+    // }
 
 }
