@@ -19,28 +19,14 @@ public class Familia {
     private Double rendaTotal;
     private int quantidadeDependentes;
     private int pontuacao;
+    private String nomeResponsavel;
 
-    public Familia(Double rendaTotal, int quantidadeDependentes) {
+    public Familia(Double rendaTotal, int quantidadeDependentes, String nomeResponsavel) {
         this.rendaTotal = rendaTotal;
         this.quantidadeDependentes = quantidadeDependentes;
+        this.nomeResponsavel = nomeResponsavel;
     }
-
-    public double getRendaTotal() {
-        return rendaTotal;
-    }
-
-    public int getQuantidadeDependentes() {
-        return quantidadeDependentes;
-    }
-
-    public int getPontuacao() {
-        return pontuacao;
-    }
-
-    public void setPontuacao(int pontuacao) {
-        this.pontuacao = pontuacao;
-    }
-
+   
     // public int calcularPontuacao() {
     // int pontuacao = 0;
 

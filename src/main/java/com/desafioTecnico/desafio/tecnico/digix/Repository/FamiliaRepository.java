@@ -1,10 +1,13 @@
 package com.desafioTecnico.desafio.tecnico.digix.Repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+
+import org.springframework.data.repository.CrudRepository;
+
 import com.desafioTecnico.desafio.tecnico.digix.models.Familia;
 
-public interface FamiliaRepository extends JpaRepository<Familia, Long> {
+public interface FamiliaRepository extends CrudRepository<Familia, Long> {
 
-    Familia findById(long id);
+    public List<Familia> findByNomeResponsavelContainingIgnoreCase(String nomeResponsavel);
 
 }
