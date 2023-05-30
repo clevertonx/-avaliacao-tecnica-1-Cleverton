@@ -1,70 +1,127 @@
 package com.desafioTecnico.desafio.tecnico.digix.services;
 
-import java.util.ArrayList;
-import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import org.junit.jupiter.api.Assertions;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.desafioTecnico.desafio.tecnico.digix.Mappers.FamiliaMapper;
 import com.desafioTecnico.desafio.tecnico.digix.Repository.FamiliaRepository;
 import com.desafioTecnico.desafio.tecnico.digix.Services.FamiliaService;
+import com.desafioTecnico.desafio.tecnico.digix.dto.FamiliaPutDTO;
 import com.desafioTecnico.desafio.tecnico.digix.dto.FamiliaRequestDTO;
+import com.desafioTecnico.desafio.tecnico.digix.dto.FamiliaResponseDTO;
 import com.desafioTecnico.desafio.tecnico.digix.models.Familia;
+import com.desafioTecnico.desafio.tecnico.digix.models.PontuadorFamilia;
 
 @SpringBootTest
 public class FamiliaServiceTest {
 
-    @Autowired
-    FamiliaService familiaService;
+    private FamiliaRepository familiaRepository = mock(FamiliaRepository.class);
+    private PontuadorFamilia pontuadorFamilia = mock(PontuadorFamilia.class);
+    private FamiliaMapper familiaMapper = mock(FamiliaMapper.class);
 
-    @Autowired
-    FamiliaRepository familiaRepository;
+    private FamiliaService familiaService = new FamiliaService(familiaRepository, pontuadorFamilia, familiaMapper);
 
     @BeforeEach
-    public void setup() {
-        // Inicializa a instância de FamiliaService manualmente
-        familiaService = new FamiliaService(familiaRepository);
+    @AfterEach
+    public void deletaDados() {
+        familiaRepository.deleteAll();
     }
 
     @Test
-    public void testCalcularPontuacao() {
-        Familia familia1 = new Familia(1000.0, 2);
-        Familia familia2 = new Familia(1500.0, 3);
-        Familia familia3 = new Familia(2000.0, 1);
+    void deve_pontuar_familias() {
 
-        int pontuacaoFamilia1 = familia1.calcularPontuacao();
-        int pontuacaoFamilia2 = familia2.calcularPontuacao();
-        int pontuacaoFamilia3 = familia3.calcularPontuacao();
+        List<Familia> familias = Arrays.asList(
+                new Familia(1000.0, 2, "Carlos"),
+                new Familia(1500.0, 3, "Joana"));
 
-        Assertions.assertEquals(5, pontuacaoFamilia1);
-        Assertions.assertEquals(6, pontuacaoFamilia2);
-        Assertions.assertEquals(2, pontuacaoFamilia3);
+        when(familiaRepository.findAll()).thenReturn(familias);
+        when(pontuadorFamilia.obterFamíliasPontuadas(familias)).thenReturn(familias);
+
+        List<FamiliaResponseDTO> resultado = familiaService.pontuarFamilias();
+
+        assertThat(resultado)
+                .isNotEmpty()
+                .hasSize(2);
+
+        verify(familiaRepository).findAll();
+        verify(pontuadorFamilia).obterFamíliasPontuadas(familias);
     }
 
     @Test
-    public void testListarFamiliasOrdenadasPorPontuacao() {
-        Familia familia1 = new Familia(1000.0, 2);
-        Familia familia2 = new Familia(1500.0, 3);
-        Familia familia3 = new Familia(2000.0, 1);
+    void deve_criar_familia_e_retornar_familia_response_dto() throws Exception {
 
-        int pontuacaoFamilia1 = familia1.calcularPontuacao();
-        int pontuacaoFamilia2 = familia2.calcularPontuacao();
-        int pontuacaoFamilia3 = familia3.calcularPontuacao();
+        FamiliaRequestDTO familiaDTO = new FamiliaRequestDTO(1000.0, 2, "Carlos");
+        Familia familiaSalva = new Familia(1000.0, 2, "Carlos");
+        FamiliaResponseDTO familiaResponseDTO = new FamiliaResponseDTO(1000.0, 2, 0, "Carlos");
 
-        List<FamiliaRequestDTO> expectedFamiliaDTOs = new ArrayList<>();
-        expectedFamiliaDTOs.add(new FamiliaRequestDTO(1500.0, 3, pontuacaoFamilia2));
-        expectedFamiliaDTOs.add(new FamiliaRequestDTO(1000.0, 2, pontuacaoFamilia1));
-        expectedFamiliaDTOs.add(new FamiliaRequestDTO(2000.0, 1, pontuacaoFamilia3));
+        when(familiaRepository.save(any(Familia.class))).thenReturn(familiaSalva);
+        when(pontuadorFamilia.obterFamíliasPontuadas(Collections.singletonList(familiaSalva)))
+                .thenReturn(Collections.singletonList(familiaSalva));
 
-        familiaRepository.save(familia1);
-        familiaRepository.save(familia2);
-        familiaRepository.save(familia3);
+        FamiliaResponseDTO resultado = familiaService.criarFamilia(familiaDTO);
 
-        List<FamiliaRequestDTO> atualFamiliaDTOs = familiaService.listarFamiliasOrdenadasPorPontuacao();
+        assertThat(resultado).isEqualTo(familiaResponseDTO);
 
-        Assertions.assertEquals(expectedFamiliaDTOs, atualFamiliaDTOs);
+        verify(familiaRepository).save(any(Familia.class));
+        verify(pontuadorFamilia).obterFamíliasPontuadas(Collections.singletonList(familiaSalva));
     }
+
+    @Test
+    void deve_alterar_familia_e_retornar_familia_response_dto() {
+
+        long familiaId = 1;
+        FamiliaPutDTO familiaPutDTO = new FamiliaPutDTO(familiaId, 2000.0, 3, "João");
+        Familia familiaExistente = new Familia(1500.0, 2, "Carlos");
+        Familia familiaAlterada = new Familia(2000.0, 3, "João");
+        FamiliaResponseDTO familiaResponseDTO = new FamiliaResponseDTO(2000.0, 3, 0, "João");
+
+        when(familiaRepository.findById(familiaId)).thenReturn(Optional.of(familiaExistente));
+        when(familiaRepository.save(any(Familia.class))).thenReturn(familiaAlterada);
+        when(familiaMapper.familiaParaFamiliaResponse(familiaAlterada)).thenReturn(familiaResponseDTO);
+
+        FamiliaResponseDTO resultado = familiaService.alterarFamilia(familiaPutDTO, familiaId);
+
+        assertThat(resultado).isEqualTo(familiaResponseDTO);
+
+        verify(familiaRepository).findById(familiaId);
+        verify(familiaRepository).save(familiaAlterada);
+        verify(familiaMapper).familiaParaFamiliaResponse(familiaAlterada);
+    }
+
+    @Test
+    void deve_excluir_familia_pelo_id() {
+
+        long familiaId = 1;
+
+        familiaService.excluirFamilia(familiaId);
+
+        verify(familiaRepository).deleteById(familiaId);
+    }
+
+    @Test
+    void deve_criar_familia_response_dto_corretamente() {
+
+        Familia familia = new Familia(1000.0, 2, "Carlos");
+
+        FamiliaResponseDTO resultado = familiaService.createFamiliaResponseDTO(familia);
+
+        assertThat(resultado.getRendaTotal()).isEqualTo(familia.getRendaTotal());
+        assertThat(resultado.getQuantidadeDependentes()).isEqualTo(familia.getQuantidadeDependentes());
+        assertThat(resultado.getPontuacao()).isEqualTo(familia.getPontuacao());
+        assertThat(resultado.getNomeResponsavel()).isEqualTo(familia.getNomeResponsavel());
+    }
+
 }

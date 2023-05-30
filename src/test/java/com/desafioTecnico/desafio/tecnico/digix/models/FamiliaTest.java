@@ -1,6 +1,7 @@
 package com.desafioTecnico.desafio.tecnico.digix.models;
 
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
 import com.desafioTecnico.desafio.tecnico.digix.Builders.FamiliaBuilder;
@@ -16,8 +17,8 @@ public class FamiliaTest {
 
         Familia familia = new FamiliaBuilder().build();
 
-        Assertions.assertEquals(rendaTotal, familia.getRendaTotal());
-        Assertions.assertEquals(quantidadeDependentes, familia.getQuantidadeDependentes());
-        Assertions.assertEquals(nomeResponsavel, familia.getNomeResponsavel());
+        assertThat(familia.getRendaTotal()).isEqualTo(rendaTotal);
+        assertThat(familia.getQuantidadeDependentes()).isEqualTo(quantidadeDependentes);
+        assertThat(familia.getNomeResponsavel()).isEqualTo(nomeResponsavel);
     }
 }

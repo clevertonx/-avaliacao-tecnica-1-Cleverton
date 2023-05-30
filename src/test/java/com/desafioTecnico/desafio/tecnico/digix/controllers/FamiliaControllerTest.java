@@ -7,6 +7,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.*;
 
 import java.util.ArrayList;
 
@@ -22,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.desafioTecnico.desafio.tecnico.digix.Builders.FamiliaBuilder;
 import com.desafioTecnico.desafio.tecnico.digix.Repository.FamiliaRepository;
 import com.desafioTecnico.desafio.tecnico.digix.dto.FamiliaRequestDTO;
+import com.desafioTecnico.desafio.tecnico.digix.dto.FamiliaResponseDTO;
 import com.desafioTecnico.desafio.tecnico.digix.models.Familia;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,6 +32,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class FamiliaControllerTest {
+
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     private MockMvc mockMvc;
@@ -50,9 +55,12 @@ public class FamiliaControllerTest {
         int quantidadeDependentes2 = 4;
         String nomeResponsavel = "Carlos";
         String nomeResponsavel2 = "Carla";
+
         ArrayList<Familia> familias = new ArrayList<Familia>();
+
         familias.add(new FamiliaBuilder().comRendaTotal(rendaTotal).comQuantidadeDependentes(quantidadeDependentes)
                 .comNomeResponsavel(nomeResponsavel).build());
+
         familias.add(new FamiliaBuilder().comRendaTotal(rendaTotal2).comQuantidadeDependentes(quantidadeDependentes2)
                 .comNomeResponsavel(nomeResponsavel2).build());
 
@@ -60,12 +68,12 @@ public class FamiliaControllerTest {
 
         mockMvc.perform(get("/familias"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].rendaTotal").value(rendaTotal2))
-                .andExpect(jsonPath("$[0].quantidadeDependentes").value(quantidadeDependentes2))
-                .andExpect(jsonPath("$[0].nomeResponsavel").value(nomeResponsavel2))
-                .andExpect(jsonPath("$[1].rendaTotal").value(rendaTotal))
-                .andExpect(jsonPath("$[1].quantidadeDependentes").value(quantidadeDependentes))
-                .andExpect(jsonPath("$[1].nomeResponsavel").value(nomeResponsavel));
+                .andExpect(jsonPath("$[0].rendaTotal", is(rendaTotal2)))
+                .andExpect(jsonPath("$[0].quantidadeDependentes", is(quantidadeDependentes2)))
+                .andExpect(jsonPath("$[0].nomeResponsavel", is(nomeResponsavel2)))
+                .andExpect(jsonPath("$[1].rendaTotal", is(rendaTotal)))
+                .andExpect(jsonPath("$[1].quantidadeDependentes", is(quantidadeDependentes)))
+                .andExpect(jsonPath("$[1].nomeResponsavel", is(nomeResponsavel)));
     }
 
     @Test
@@ -79,7 +87,15 @@ public class FamiliaControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.rendaTotal").value(1000.0))
-                .andExpect(jsonPath("$.quantidadeDependentes").value(2));
+                .andExpect(jsonPath("$.quantidadeDependentes").value(2))
+                .andExpect(jsonPath("$.nomeResponsavel").value("Carlos"))
+                .andDo(result -> {
+                    String jsonResponse = result.getResponse().getContentAsString();
+                    FamiliaResponseDTO responseDTO = objectMapper.readValue(jsonResponse, FamiliaResponseDTO.class);
+                    assertThat(responseDTO.getRendaTotal()).isEqualTo(1000.0);
+                    assertThat(responseDTO.getQuantidadeDependentes()).isEqualTo(2);
+                    assertThat(responseDTO.getNomeResponsavel()).isEqualTo("Carlos");
+                });
     }
 
     @Test
@@ -98,7 +114,15 @@ public class FamiliaControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.rendaTotal").value(1500.0))
                 .andExpect(jsonPath("$.quantidadeDependentes").value(3))
-                .andExpect(jsonPath("$.nomeResponsavel").value("Joana"));
+                .andExpect(jsonPath("$.nomeResponsavel").value("Joana"))
+                .andDo(result -> {
+                    String responseBody = result.getResponse().getContentAsString();
+                    FamiliaResponseDTO familiaResponseDTO = objectMapper.readValue(responseBody,
+                            FamiliaResponseDTO.class);
+                    assertThat(familiaResponseDTO.getRendaTotal()).isEqualTo(1500.0);
+                    assertThat(familiaResponseDTO.getQuantidadeDependentes()).isEqualTo(3);
+                    assertThat(familiaResponseDTO.getNomeResponsavel()).isEqualTo("Joana");
+                });
     }
 
     @Test

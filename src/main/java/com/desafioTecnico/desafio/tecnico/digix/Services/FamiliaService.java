@@ -65,7 +65,7 @@ public class FamiliaService {
         familiaRepository.deleteById(id);
     }
 
-    private FamiliaResponseDTO createFamiliaResponseDTO(Familia familia) {
+    public FamiliaResponseDTO createFamiliaResponseDTO(Familia familia) {
         return new FamiliaResponseDTO(
                 familia.getRendaTotal(),
                 familia.getQuantidadeDependentes(),
