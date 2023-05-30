@@ -41,8 +41,8 @@ public class FamiliaService {
     public FamiliaResponseDTO criarFamilia(FamiliaRequestDTO familiaDTO) throws Exception {
         Familia familia = new Familia(familiaDTO.getRendaTotal(), familiaDTO.getQuantidadeDependentes(),
                 familiaDTO.getNomeResponsavel());
-        familiaRepository.save(familia);
-        pontuadorFamilia.obterFamíliasPontuadas(Collections.singletonList(familia));
+                pontuadorFamilia.obterFamíliasPontuadas(Collections.singletonList(familia));
+                familiaRepository.save(familia);
 
         return createFamiliaResponseDTO(familia);
     }
