@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class FamiliaService {
 
     private final FamiliaRepository familiaRepository;
-    private final PontuadorFamilia pontuadorFamilia;
+    public final PontuadorFamilia pontuadorFamilia;
     private final FamiliaMapper familiaMapper;
 
     public List<FamiliaResponseDTO> pontuarFamilias() {

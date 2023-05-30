@@ -1,6 +1,7 @@
 package com.desafioTecnico.desafio.tecnico.digix.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -124,4 +125,130 @@ public class FamiliaServiceTest {
         assertThat(resultado.getNomeResponsavel()).isEqualTo(familia.getNomeResponsavel());
     }
 
+    @Test
+    void deve_testar_calculo_pontuacao_com_renda_900_e_dependentes_3() {
+
+        PontuadorFamilia pontuadorFamilia = new PontuadorFamilia();
+
+        FamiliaRequestDTO familiaRequestDTO = new FamiliaRequestDTO(900.0, 3, "João");
+        Familia familia = new Familia(familiaRequestDTO.getRendaTotal(), familiaRequestDTO.getQuantidadeDependentes(),
+                familiaRequestDTO.getNomeResponsavel());
+        List<Familia> familias = Collections.singletonList(familia);
+
+        List<Familia> familiasPontuadas = pontuadorFamilia.obterFamíliasPontuadas(familias);
+
+        assertEquals(8, familiasPontuadas.get(0).getPontuacao());
+    }
+
+    @Test
+    void deve_testar_calculo_pontuacao_com_renda_900_e_dependentes_2() {
+        PontuadorFamilia pontuadorFamilia = new PontuadorFamilia();
+
+        FamiliaRequestDTO familiaRequestDTO = new FamiliaRequestDTO(900.0, 2, "João");
+        Familia familia = new Familia(familiaRequestDTO.getRendaTotal(), familiaRequestDTO.getQuantidadeDependentes(),
+                familiaRequestDTO.getNomeResponsavel());
+        List<Familia> familias = Collections.singletonList(familia);
+
+        List<Familia> familiasPontuadas = pontuadorFamilia.obterFamíliasPontuadas(familias);
+
+        assertEquals(7, familiasPontuadas.get(0).getPontuacao());
+    }
+
+    @Test
+    void deve_testar_calculo_pontuacao_com_renda_900_e_dependentes_0() {
+        PontuadorFamilia pontuadorFamilia = new PontuadorFamilia();
+
+        FamiliaRequestDTO familiaRequestDTO = new FamiliaRequestDTO(900.0, 0, "João");
+        Familia familia = new Familia(familiaRequestDTO.getRendaTotal(), familiaRequestDTO.getQuantidadeDependentes(),
+                familiaRequestDTO.getNomeResponsavel());
+        List<Familia> familias = Collections.singletonList(familia);
+
+        List<Familia> familiasPontuadas = pontuadorFamilia.obterFamíliasPontuadas(familias);
+
+        assertEquals(5, familiasPontuadas.get(0).getPontuacao());
+    }
+
+    @Test
+    void deve_testar_calculo_pontuacao_com_renda_901_e_dependentes_3() {
+        PontuadorFamilia pontuadorFamilia = new PontuadorFamilia();
+
+        FamiliaRequestDTO familiaRequestDTO = new FamiliaRequestDTO(901.0, 3, "João");
+        Familia familia = new Familia(familiaRequestDTO.getRendaTotal(), familiaRequestDTO.getQuantidadeDependentes(),
+                familiaRequestDTO.getNomeResponsavel());
+        List<Familia> familias = Collections.singletonList(familia);
+
+        List<Familia> familiasPontuadas = pontuadorFamilia.obterFamíliasPontuadas(familias);
+
+        assertEquals(6, familiasPontuadas.get(0).getPontuacao());
+    }
+
+    @Test
+    void deve_testar_calculo_pontuacao_com_renda_901_e_dependentes_2() {
+        PontuadorFamilia pontuadorFamilia = new PontuadorFamilia();
+
+        FamiliaRequestDTO familiaRequestDTO = new FamiliaRequestDTO(901.0, 2, "João");
+        Familia familia = new Familia(familiaRequestDTO.getRendaTotal(), familiaRequestDTO.getQuantidadeDependentes(),
+                familiaRequestDTO.getNomeResponsavel());
+        List<Familia> familias = Collections.singletonList(familia);
+
+        List<Familia> familiasPontuadas = pontuadorFamilia.obterFamíliasPontuadas(familias);
+
+        assertEquals(5, familiasPontuadas.get(0).getPontuacao());
+    }
+
+    @Test
+    void deve_testar_calculo_pontuacao_com_renda_901_e_dependentes_0() {
+        PontuadorFamilia pontuadorFamilia = new PontuadorFamilia();
+
+        FamiliaRequestDTO familiaRequestDTO = new FamiliaRequestDTO(901.0, 0, "João");
+        Familia familia = new Familia(familiaRequestDTO.getRendaTotal(), familiaRequestDTO.getQuantidadeDependentes(),
+                familiaRequestDTO.getNomeResponsavel());
+        List<Familia> familias = Collections.singletonList(familia);
+
+        List<Familia> familiasPontuadas = pontuadorFamilia.obterFamíliasPontuadas(familias);
+
+        assertEquals(3, familiasPontuadas.get(0).getPontuacao());
+    }
+
+    @Test
+    void deve_testar_calculo_pontuacao_com_renda_1501_e_dependentes_3() {
+        PontuadorFamilia pontuadorFamilia = new PontuadorFamilia();
+
+        FamiliaRequestDTO familiaRequestDTO = new FamiliaRequestDTO(1501.0, 3, "João");
+        Familia familia = new Familia(familiaRequestDTO.getRendaTotal(), familiaRequestDTO.getQuantidadeDependentes(),
+                familiaRequestDTO.getNomeResponsavel());
+        List<Familia> familias = Collections.singletonList(familia);
+
+        List<Familia> familiasPontuadas = pontuadorFamilia.obterFamíliasPontuadas(familias);
+
+        assertEquals(3, familiasPontuadas.get(0).getPontuacao());
+    }
+
+    @Test
+    void deve_testar_calculo_pontuacao_com_renda_1501_e_dependentes_2() {
+        PontuadorFamilia pontuadorFamilia = new PontuadorFamilia();
+
+        FamiliaRequestDTO familiaRequestDTO = new FamiliaRequestDTO(1501.0, 2, "João");
+        Familia familia = new Familia(familiaRequestDTO.getRendaTotal(), familiaRequestDTO.getQuantidadeDependentes(),
+                familiaRequestDTO.getNomeResponsavel());
+        List<Familia> familias = Collections.singletonList(familia);
+
+        List<Familia> familiasPontuadas = pontuadorFamilia.obterFamíliasPontuadas(familias);
+
+        assertEquals(2, familiasPontuadas.get(0).getPontuacao());
+    }
+
+    @Test
+    void deve_testar_calculo_pontuacao_com_renda_1501_e_dependentes_0() {
+        PontuadorFamilia pontuadorFamilia = new PontuadorFamilia();
+
+        FamiliaRequestDTO familiaRequestDTO = new FamiliaRequestDTO(1501.0, 0, "João");
+        Familia familia = new Familia(familiaRequestDTO.getRendaTotal(), familiaRequestDTO.getQuantidadeDependentes(),
+                familiaRequestDTO.getNomeResponsavel());
+        List<Familia> familias = Collections.singletonList(familia);
+
+        List<Familia> familiasPontuadas = pontuadorFamilia.obterFamíliasPontuadas(familias);
+
+        assertEquals(0, familiasPontuadas.get(0).getPontuacao());
+    }
 }
