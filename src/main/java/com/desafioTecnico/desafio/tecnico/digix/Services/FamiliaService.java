@@ -74,3 +74,13 @@ public class FamiliaService {
     }
 
 }
+// O código representa uma classe chamada "FamiliaService" que fornece serviços relacionados à entidade "Familia".
+// A classe é anotada com "@Service", indicando que é uma classe de serviço do Spring.
+// Possui uma dependência com o repositório "FamiliaRepository", o pontuador de famílias "PontuadorFamilia" e o mapeador "FamiliaMapper".
+// Possui métodos para realizar operações como pontuar famílias, criar uma nova família, alterar uma família existente e excluir uma família.
+// O método "pontuarFamilias" recupera todas as famílias do repositório, pontua as famílias usando o pontuador de famílias e retorna uma lista de objetos "FamiliaResponseDTO" contendo as informações pontuadas das famílias.
+// O método "criarFamilia" cria uma nova instância de "Familia" com base nos dados fornecidos, pontua a família usando o pontuador de famílias, salva a família no repositório e retorna um objeto "FamiliaResponseDTO" representando a família criada.
+// O método "alterarFamilia" altera uma família existente com base no ID fornecido. Ele recupera a família do repositório, atualiza os dados com base no objeto "FamiliaPutDTO", salva as alterações no repositório e retorna um objeto "FamiliaResponseDTO" representando a família alterada.
+// O método "excluirFamilia" exclui uma família com base no ID fornecido.
+// O método "createFamiliaResponseDTO" cria um objeto "FamiliaResponseDTO" com base nos dados de uma instância de "Familia".
+// Essa classe encapsula a lógica de negócio relacionada à entidade "Familia" e interage com o repositório para realizar operações de criação, alteração, exclusão e pontuação das famílias.

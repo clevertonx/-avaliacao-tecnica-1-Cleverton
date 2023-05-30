@@ -48,3 +48,4 @@ public class FamiliaMapperImpl implements FamiliaMapper {
         return familia;
     }
 }
+// A classe "FamiliaMapperImpl" implementa a interface "FamiliaMapper" e é responsável por realizar os mapeamentos entre objetos DTO e objetos da entidade "Familia". 

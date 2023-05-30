@@ -11,3 +11,4 @@ public interface FamiliaRepository extends CrudRepository<Familia, Long> {
     public List<Familia> findByNomeResponsavelContainingIgnoreCase(String nomeResponsavel);
 
 }
+// O código representa uma interface chamada "FamiliaRepository" que estende a interface "CrudRepository" do Spring Data. Aqui está um resumo do código:

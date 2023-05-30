@@ -26,27 +26,5 @@ public class Familia {
         this.quantidadeDependentes = quantidadeDependentes;
         this.nomeResponsavel = nomeResponsavel;
     }
-   
-    // public int calcularPontuacao() {
-    // int pontuacao = 0;
-
-    // if (rendaTotal <= 900) {
-    // pontuacao += 5;
-    // } else if (rendaTotal <= 1500) {
-    // pontuacao += 3;
-    // }
-
-    // if (quantidadeDependentes >= 3) {
-    // pontuacao += 3;
-    // } else if (quantidadeDependentes >= 1) {
-    // pontuacao += 2;
-    // }
-
-    // return pontuacao;
-    // }
-
-    // public int getPontuacao() {
-    // return calcularPontuacao();
-    // }
-
 }
+// O código representa uma classe chamada "Familia" que representa informações sobre uma família.

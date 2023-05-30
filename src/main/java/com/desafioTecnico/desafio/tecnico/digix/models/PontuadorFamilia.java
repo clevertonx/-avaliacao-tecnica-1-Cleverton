@@ -45,3 +45,4 @@ public class PontuadorFamilia {
         return familias;
     }
 }
+// O código representa uma classe chamada "PontuadorFamilia" que é responsável por atribuir pontos às famílias com base em critérios específicos.

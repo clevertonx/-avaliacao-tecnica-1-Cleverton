@@ -16,5 +16,4 @@ public class FamiliaRequestDTO {
     private int quantidadeDependentes;
     @NotBlank(message = "Nome do responsável é obrigatório!")
     private String nomeResponsavel;
-
 }

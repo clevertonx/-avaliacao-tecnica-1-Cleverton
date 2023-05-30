@@ -20,3 +20,4 @@ public interface FamiliaMapper {
 
     public Familia familiaPutParaFamilia(FamiliaPutDTO familiaPutDTO);
 }
+// O código representa uma interface chamada "FamiliaMapper" que define mapeamentos entre objetos DTO (Data Transfer Object) e objetos da entidade "Familia".

@@ -54,3 +54,4 @@ public abstract class Criterios {
         }
     }
 }
+// O código representa uma classe chamada "Criterios" que possui diferentes critérios para avaliar uma família. Cada critério é representado por uma classe interna dentro da classe "Criterios". 
